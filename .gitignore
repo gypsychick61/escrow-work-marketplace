@@ -1,0 +1,5 @@
+.dfx/
+node_modules/
+*.wasm
+*.wasm.gz
+.DS_Store

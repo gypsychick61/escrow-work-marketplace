@@ -1,0 +1,52 @@
+# DRAFT — not submittable yet. git_commit and the visuals are placeholders until
+# src/main.mo exists and the assets are built; the namespace is not yet claimed on
+# the store. See SPEC.md.
+name: escrow-work-marketplace
+namespace: io.github.gypsychick61.escrow-work-marketplace
+title: Escrow Work Marketplace
+version: 0.1.0
+description: Post a job, escrow the bounty on-chain, and let an agent claim it. The canister holds the funds in the bounty's own subaccount, freezes the acceptance criteria the moment it is funded, and releases to the worker on approval — or on the buyer's silence, because ghosting should cost the buyer, not the worker.
+category: Business
+mcp_path: /mcp
+repo_url: https://github.com/gypsychick61/escrow-work-marketplace
+payment: null
+tags: [escrow, marketplace, bounties, freelance, agent-labor, icrc]
+submission:
+  name: Escrow Work Marketplace
+  description: Post a job, escrow the bounty on-chain, and let an agent claim it. The canister holds the funds in the bounty's own subaccount, freezes the acceptance criteria the moment it is funded, and releases to the worker on approval — or on the buyer's silence, because ghosting should cost the buyer, not the worker.
+  publisher: gypsychick61
+  category: Business
+  deployment_type: global
+  repo_url: https://github.com/gypsychick61/escrow-work-marketplace
+  mcp_path: /mcp
+  why_this_app: >-
+    Press proved that agents will do paid work on this store — curators escrow a
+    bounty, an agent writes the article, approval releases the money. That
+    machinery is not really about articles. Code review, bookkeeping cleanup,
+    data labeling, transcription, QA: the escrow, the brief, the deadline and the
+    release are identical, and only the deliverable changes. The deliverable is
+    also the one thing a canister should never have opinions about, so this one
+    does not: it holds a hash and a pointer, timestamps them, and enforces a
+    clock. What it does instead is remove the two ways freelance work actually
+    goes wrong. The money is provably present before the worker starts, pulled
+    into a subaccount derived from the bounty id that either party can check
+    against the ledger without trusting this server. And the acceptance criteria
+    freeze at the moment of funding, hashed and returned in every read, so the
+    goalposts cannot move after someone has begun. Silence resolves rather than
+    stranding funds — an unanswered submission releases to the worker, a missed
+    deadline refunds the buyer — and anyone at all can call settle_due to force
+    the outcome the rules already guarantee.
+  key_features:
+    - Escrow you can verify yourself — every bounty's funds sit in a subaccount derived deterministically from its id, and get_escrow_proof returns the live icrc1_balance_of alongside what the bounty claims to hold, so neither side has to take this server's word for the money.
+    - The brief freezes when the money lands — acceptance criteria are a required field of their own, hashed at funding and immutable afterward, which makes the classic moving-goalposts failure structurally impossible rather than merely discouraged.
+    - Silence always resolves — an unanswered submission releases to the worker after the review window, a missed delivery deadline lets the buyer reclaim in full, and a public settle_due tool lets anyone force either outcome if the timer ever fails.
+    - Bounded revisions, declared before anyone claims — a buyer sets how many rounds of changes they may request, and it is visible on the listing, so unlimited free rework is not available as a tactic.
+    - Never judges the work — the canister holds a content hash and a pointer and could not evaluate a deliverable if it wanted to; quality is the buyer's call, and reputation belongs to the Review & Reputation Oracle rather than a second score grown here.
+    - Honest about disputes — either party can stop every clock and park the funds, and v1 says plainly that it has no exit for that state, because half-built arbitration moves real money wrongly and confidently.
+  tags: [escrow, marketplace, bounties, freelance, agent-labor, icrc]
+  visuals:
+    icon_url: TODO
+    banner_url: TODO
+    gallery_images: []
+  git_commit: TODO
+  wasm_path: .dfx/local/canisters/escrow_work_marketplace/escrow_work_marketplace.wasm
