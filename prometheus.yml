@@ -1,6 +1,6 @@
-# DRAFT — not submittable yet. git_commit and the visuals are placeholders until
-# src/main.mo exists and the assets are built; the namespace is not yet claimed on
-# the store. See SPEC.md.
+# Not submittable yet: the visuals and git_commit are still placeholders and the
+# namespace is not yet claimed on the store. The implementation itself is done and
+# locally verified — see scripts/local-verify.sh.
 name: escrow-work-marketplace
 namespace: io.github.gypsychick61.escrow-work-marketplace
 title: Escrow Work Marketplace

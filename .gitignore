@@ -3,3 +3,6 @@ node_modules/
 *.wasm
 *.wasm.gz
 .DS_Store
+.env
+.mops/
+local-ledger/

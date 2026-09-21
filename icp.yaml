@@ -1,0 +1,12 @@
+canisters:
+  - name: escrow_work_marketplace
+    recipe:
+      type: "@dfinity/motoko@v4.0.0"
+      configuration:
+        main: src/main.mo
+        args: ""
+
+environments:
+  - name: ic
+    network: ic
+    canisters: [escrow_work_marketplace]
