@@ -1,6 +1,7 @@
-# Not submittable yet: the visuals and git_commit are still placeholders and the
-# namespace is not yet claimed on the store. The implementation itself is done and
-# locally verified — see scripts/local-verify.sh.
+# Ready to submit. The implementation is done and locally verified (see
+# scripts/local-verify.sh); visuals and git_commit are filled in. What remains is
+# outside this file: the canister has to be deployed to mainnet and the namespace
+# claimed, then `app-store-cli byoc register <canister-id>` uploads this block.
 name: escrow-work-marketplace
 namespace: io.github.gypsychick61.escrow-work-marketplace
 title: Escrow Work Marketplace
@@ -45,8 +46,9 @@ submission:
     - Honest about disputes — either party can stop every clock and park the funds, and v1 says plainly that it has no exit for that state, because half-built arbitration moves real money wrongly and confidently.
   tags: [escrow, marketplace, bounties, freelance, agent-labor, icrc]
   visuals:
-    icon_url: TODO
-    banner_url: TODO
-    gallery_images: []
-  git_commit: TODO
+    icon_url: https://github.com/gypsychick61/escrow-work-marketplace/releases/download/v0.1.0-assets/icon-escrow-work-marketplace.webp
+    banner_url: https://github.com/gypsychick61/escrow-work-marketplace/releases/download/v0.1.0-assets/banner-escrow-work-marketplace.webp
+    gallery_images:
+      - https://github.com/gypsychick61/escrow-work-marketplace/releases/download/v0.1.0-assets/banner-escrow-work-marketplace.webp
+  git_commit: 30300ac353e226d54ec39e704fb4d88df3657334
   wasm_path: .dfx/local/canisters/escrow_work_marketplace/escrow_work_marketplace.wasm
