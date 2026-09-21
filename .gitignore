@@ -6,3 +6,4 @@ node_modules/
 .env
 .mops/
 local-ledger/
+.icp/
