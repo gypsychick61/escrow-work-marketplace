@@ -13,10 +13,9 @@
 # The clock-expiry paths — an unanswered review releasing to the worker, a
 # missed delivery refunding the buyer — are not exercised here, because their
 # deadlines are days long and a local replica cannot be moved days ahead of the
-# host clock without breaking ingress-message expiry. To verify those, set
-# nanosPerHour to 1_000_000_000 and nanosPerDay to 2_000_000_000 in src/main.mo,
-# redeploy, and re-run: an hour becomes a second and the same code settles in
-# real time. Restore both constants afterward.
+# host clock without breaking ingress-message expiry. Those live in
+# ./scripts/verify-expiry.sh, which compresses the clock instead of the wait and
+# restores src/main.mo when it is done. Run both; neither alone is the whole story.
 
 set -euo pipefail
 cd "$(dirname "$0")/.."

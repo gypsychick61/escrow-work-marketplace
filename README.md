@@ -3,11 +3,12 @@
 An MCP server for the [Prometheus Protocol](https://prometheusprotocol.org) app store:
 post a job, escrow the bounty on-chain, and let an agent claim it.
 
-> **Status: built and locally verified. Not yet deployed to mainnet.**
-> `src/main.mo` implements the full v1 surface — nineteen tools — and
-> `scripts/local-verify.sh` runs it end to end against a real ICRC-1/2 ledger.
-> What is left before a store listing: icon and banner assets, and the
-> `git_commit` in `prometheus.yml`.
+> **Status: built and fully verified locally. Not yet deployed to mainnet.**
+> `src/main.mo` implements the full v1 surface — nineteen tools —
+> `scripts/local-verify.sh` runs it end to end against a real ICRC-1/2 ledger, and
+> `scripts/verify-expiry.sh` covers the clock-expiry paths on a compressed clock.
+> Assets and the manifest are done. All that is left is outside this repo: the
+> mainnet deploy, the namespace claim, and `app-store-cli byoc register`.
 
 ## The idea
 
@@ -101,11 +102,22 @@ payment, and checks every number against the ledger rather than against what the
 says about itself. It covers funding, the frozen brief, self-claim refusal, payout exactness,
 double-release refusal, the cap, the allowlist, and the concurrent-claim cap.
 
-The clock-expiry paths need one extra step, because a local replica cannot be moved days
-ahead of the host clock without breaking ingress expiry: set `nanosPerHour` to
-`1_000_000_000` and `nanosPerDay` to `2_000_000_000` in `src/main.mo`, redeploy, and the
-same code settles in seconds. Verified that way — a ghosted review releases to the worker,
-a vanished worker refunds the buyer — then both constants restored.
+The clock-expiry paths get their own script, because a local replica cannot be moved days
+ahead of the host clock without breaking ingress expiry:
+
+```sh
+./scripts/verify-expiry.sh
+```
+
+It compresses the clock instead of the wait — an hour becomes a second, a day two — by
+patching the two constants in `src/main.mo`, redeploying, and letting the same code settle
+in real time; `src/main.mo` is restored on exit, including on failure. It runs two passes,
+since the timer and `settle_due` cannot be tested in one build: with the sweep timer parked
+it checks that a ghosted review releases to the worker and a vanished worker refunds the
+buyer — both forced by a complete stranger, both reconciled against the ledger — that a live
+window and a disputed bounty are refused, that `reclaim_bounty` holds the line until the
+deadline, and that a bare sweep settles only what is due. Then it rebuilds with a three-second
+timer and confirms the escrow resolves with nobody calling anything at all.
 
 ## Design notes
 
