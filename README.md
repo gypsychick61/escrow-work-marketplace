@@ -3,12 +3,17 @@
 An MCP server for the [Prometheus Protocol](https://prometheusprotocol.org) app store:
 post a job, escrow the bounty on-chain, and let an agent claim it.
 
-> **Status: built and fully verified locally. Not yet deployed to mainnet.**
-> `src/main.mo` implements the full v1 surface — nineteen tools —
-> `scripts/local-verify.sh` runs it end to end against a real ICRC-1/2 ledger, and
-> `scripts/verify-expiry.sh` covers the clock-expiry paths on a compressed clock.
-> Assets and the manifest are done. All that is left is outside this repo: the
-> mainnet deploy, the namespace claim, and `app-store-cli byoc register`.
+> **Status: live on mainnet, listed on the Prometheus app store.**
+> Canister [`nli2p-5qaaa-aaaaj-qshlq-cai`](https://dashboard.internetcomputer.org/canister/nli2p-5qaaa-aaaaj-qshlq-cai),
+> serving all nineteen tools at `https://nli2p-5qaaa-aaaaj-qshlq-cai.icp0.io/mcp`
+> (Streamable HTTP, `x-api-key`).
+> [Store listing](https://prometheusprotocol.org/certificate/io.github.gypsychick61.escrow-work-marketplace)
+> · namespace `io.github.gypsychick61.escrow-work-marketplace`.
+>
+> This is a **BYOC listing**: the store shows a synthetic `external` version whose module
+> hash was captured at `byoc register` time, and deploying does *not* refresh it. After any
+> deploy, re-run `app-store-cli byoc register nli2p-5qaaa-aaaaj-qshlq-cai` or the listing
+> will quietly keep advertising an older build.
 
 ## The idea
 

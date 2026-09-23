@@ -27,7 +27,15 @@ export DFX_WARNING=-mainnet_plaintext_identity
 SRC=src/main.mo
 BACKUP="$(mktemp -t escrow-main-mo)"
 cp "$SRC" "$BACKUP"
-restore() { cp "$BACKUP" "$SRC"; rm -f "$BACKUP"; }
+# Restore the source AND rebuild from it. Without the rebuild this script leaves a
+# compressed-clock wasm in .dfx/local — which is the file prometheus.yml's wasm_path
+# points at. A canister where an hour is a second must never outlive this script.
+restore() {
+  cp "$BACKUP" "$SRC"; rm -f "$BACKUP"
+  printf '\n  ..   restoring src/main.mo and rebuilding at real clock speed\n'
+  dfx build escrow_work_marketplace >/dev/null 2>&1 \
+    || printf '  WARN rebuild failed — .dfx/local still holds a COMPRESSED-CLOCK wasm; run: dfx build\n'
+}
 trap restore EXIT
 
 say()  { printf '\n\033[1m%s\033[0m\n' "$*"; }
